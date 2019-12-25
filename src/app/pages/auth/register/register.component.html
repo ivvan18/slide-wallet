@@ -1,0 +1,63 @@
+<div *ngIf="!access_token; else emailSend">
+  <mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <h1 class = "mat-h1">Register</h1>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <form class="sign-in-form"
+        [formGroup]="registerFormGroup">
+    <mat-form-field class="inputs">
+      <input matInput placeholder="Username" formControlName="username">
+      <mat-error *ngIf="registerFormGroup.get('username').hasError('required')">
+        Username is required
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="inputs">
+      <input matInput placeholder="Email" formControlName="email">
+      <mat-error *ngIf="!isEmailValid()">
+        {{registerFormGroup.get('email').hasError('email') ? 'Please enter a valid email address' : 'Email address is required'}}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="inputs">
+      <input matInput placeholder="Password" formControlName="password" [type]="hidePassword ? 'password' : 'text'">
+      <mat-icon matSuffix class="clicable" (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+      <mat-error *ngIf="!isPasswordValid()">
+        {{registerFormGroup.get('password').hasError('required') ? 'Password required' : 'Password length should be at least 6 characters'}}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="inputs">
+      <input matInput placeholder="Repeat password" formControlName="repeatPassword" [type]="hidePasswordRepeat ? 'password' : 'text'" [errorStateMatcher]="repeatPasswordMatcher">
+      <mat-icon matSuffix class="clicable" (click)="hidePasswordRepeat = !hidePasswordRepeat">{{hidePasswordRepeat ? 'visibility_off' : 'visibility'}}</mat-icon>
+      <mat-error *ngIf="registerFormGroup.hasError('notSame')">
+        Passwords do not match
+      </mat-error>
+    </mat-form-field>
+    <div class="field"
+         [style.margin-top]="registerFormGroup.hasError('notSame') ? '10px' : '0px'">
+      <div class="buttons-section">
+        <button mat-flat-button
+                color="primary"
+                class="register-button"
+                (click)="onRegisterClicked()"
+                [disabled]="!registerFormGroup.valid || isFetching">{{ isFetching ? '' : 'Register'}}<mat-spinner *ngIf="isFetching" class="spinner" [diameter]="20"></mat-spinner></button>
+        <span class="or">Or</span>
+        <button mat-stroked-button (click)="onSignInClicked()">Sign in here</button>
+      </div>
+      <mat-error *ngIf="error && formSubmitted" class="back-section">
+        {{error}}
+      </mat-error>
+    </div>
+  </form>
+</div>
+
+<ng-template #emailSend>
+  <div class="sign-in-form email-send-container">
+    <img src="../../../../assets/auth/completed.svg" style="height: 180px">
+    <span class="header">Success</span>
+    <span class="mat-subheading-2 subheading">Verify your email address to finish registration</span>
+    <button mat-flat-button
+            color="primary"
+            (click)="onGoBackClicked()">Go back</button>
+  </div>
+</ng-template>

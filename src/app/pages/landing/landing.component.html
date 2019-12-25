@@ -1,0 +1,34 @@
+<div class="registration-container">
+  <h1 class="mat-display-2 info-header">Start using Slide-wallet for free!</h1>
+  <div class="title-container">
+    <mat-grid-list cols="2" rowHeight="70px">
+      <mat-grid-tile
+        [colspan]="1"
+        [rowspan]="1">
+        <h3 class="mat-h1 info-header">Already have an account?</h3>
+      </mat-grid-tile>
+      <mat-grid-tile
+        [colspan]="1"
+        [rowspan]="1">
+        <h3 class="mat-h1 info-header">First time on Slide-wallet?</h3>
+      </mat-grid-tile>
+      <mat-grid-tile
+        [colspan]="1"
+        [rowspan]="1">
+        <button mat-stroked-button
+                class="register-buttons"
+                (click)="onSignInButtonClicked()">Sign in</button>
+      </mat-grid-tile>
+      <mat-grid-tile
+        [colspan]="1"
+        [rowspan]="1">
+        <button mat-raised-button
+                class="register-buttons"
+                color="primary"
+                (click)="onRegisterButtonClicked()">
+          Register
+        </button>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </div>
+</div>
