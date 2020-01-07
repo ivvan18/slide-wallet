@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  restUrl: 'http://dima.pythonanywhere.com'
+  restUrl: 'https://dima.pythonanywhere.com'
 };

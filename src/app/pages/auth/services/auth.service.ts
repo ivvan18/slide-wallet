@@ -29,4 +29,16 @@ export class AuthService {
 
     return this.http.post(this.authUrl + '/registration', copyObject);
   }
+
+  forgotPassword(email: string): Observable<any> {
+    return this.http.post(this.authUrl + '/password/forgot', {email: email});
+  }
+
+  resetPasswordViaEmail(token: string, new_password: string): Observable<any>  {
+    return this.http.post(this.authUrl + '/password/forgot/reset/' + token, {new_password: new_password});
+  }
+
+  changePassword(current_password: string, password: string) {
+    return this.http.post(this.authUrl + '/password/change', {current_password: current_password, new_password: password});
+  }
 }

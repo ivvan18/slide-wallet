@@ -5,7 +5,6 @@ import {Subject} from 'rxjs';
 import {AuthService} from '../services/auth.service';
 import {Router} from '@angular/router';
 import {takeUntil} from 'rxjs/operators';
-import {Location} from '@angular/common';
 
 function checkPasswords(group: FormGroup) {
   const pass = group.controls.password.value;
@@ -51,7 +50,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
     private auth: AuthService,
     private router: Router,
     private dialogRef: MatDialogRef<RegisterComponent>,
-    private location: Location
   ) {}
 
   ngOnInit() {

@@ -1,12 +1,18 @@
 {
   "/login/*": {
-    "target": "http://dima.pythonanywhere.com",
+    "target": "https://dima.pythonanywhere.com",
     "secure": false,
     "changeOrigin": true,
     "logLevel": "debug"
   },
   "/registration/*": {
-    "target": "http://dima.pythonanywhere.com",
+    "target": "https://dima.pythonanywhere.com",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/password/forgot/*": {
+    "target": "https://dima.pythonanywhere.com",
     "secure": false,
     "changeOrigin": true,
     "logLevel": "debug"

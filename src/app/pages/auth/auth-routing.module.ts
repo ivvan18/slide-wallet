@@ -2,12 +2,11 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterModule, Routes} from '@angular/router';
 
-import {LoginComponent} from './login/login.component';
 import {AuthComponent} from './auth.component';
-import {RestorePasswordComponent} from './restore-password/restore-password.component';
-import {ChangePasswordComponent} from './change-password/change-password.component';
 import {LoginEntryComponent} from './login/login-entry.component';
 import {RegisterEntryComponent} from './register/register-entry.component';
+import {RestorePasswordEntryComponent} from './restore-password/restore-password-entry.component';
+import {ChangePasswordEntryComponent} from './change-password/change-password-entry.component';
 
 const routes: Routes = [
   {
@@ -15,13 +14,10 @@ const routes: Routes = [
     component: AuthComponent,
     children: [
       {path: '', redirectTo: 'login'},
-      {
-        path: 'login',
-        component: LoginEntryComponent
-      },
+      {path: 'login', component: LoginEntryComponent},
       {path: 'register', component: RegisterEntryComponent},
-      {path: 'restore-password', component: RestorePasswordComponent},
-      {path: 'change-password', component: ChangePasswordComponent},
+      {path: 'restore-password', component: RestorePasswordEntryComponent},
+      {path: 'change-password', component: ChangePasswordEntryComponent},
     ]
   }
 ];

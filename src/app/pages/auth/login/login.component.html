@@ -33,5 +33,9 @@
     <mat-error *ngIf="error && formSubmitted" class="back-section">
       {{error}}
     </mat-error>
+    <div class="mat-subheading-2 restore-section">
+      <div>Forgot password?&nbsp;</div>
+      <div><span class="primary-color clicable" (click)="onRestorePasswordClicked()">Restore</span> it here</div>
+    </div>
   </div>
 </form>

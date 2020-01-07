@@ -1,10 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Observable, Subject} from 'rxjs';
+import {Subject} from 'rxjs';
 import {MatDialogRef} from '@angular/material';
 import {AuthService} from '../services/auth.service';
-import {Route, Router} from '@angular/router';
-import {takeUntil, tap} from 'rxjs/operators';
+import {Router} from '@angular/router';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -67,5 +67,10 @@ export class LoginComponent implements OnInit, OnDestroy {
   onRegisterClicked() {
     this.dialogRef.close();
     this.router.navigate(['/auth/register']);
+  }
+
+  onRestorePasswordClicked() {
+    this.dialogRef.close();
+    this.router.navigate(['/auth/restore-password']);
   }
 }

@@ -13,3 +13,8 @@ body{
 .custom-dialog-container .mat-dialog-container {
   padding: 0;
 }
+
+.or {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: 16px;
+}

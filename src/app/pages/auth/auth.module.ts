@@ -20,6 +20,8 @@ import {
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { LoginEntryComponent } from './login/login-entry.component';
 import { RegisterEntryComponent } from './register/register-entry.component';
+import {RestorePasswordEntryComponent} from './restore-password/restore-password-entry.component';
+import { ChangePasswordEntryComponent } from './change-password/change-password-entry.component';
 
 const MAT_MODULES = [
   MatDialogModule,
@@ -44,7 +46,8 @@ const MAT_MODULES = [
     FormsModule,
     ReactiveFormsModule
   ],
-  declarations: [RegisterComponent, LoginComponent, ChangePasswordComponent, RestorePasswordComponent, AuthComponent, LoginEntryComponent, RegisterEntryComponent],
-  entryComponents: [LoginComponent, RegisterComponent]
+  declarations: [RegisterComponent, LoginComponent, ChangePasswordComponent, RestorePasswordComponent, AuthComponent,
+    LoginEntryComponent, RegisterEntryComponent, RestorePasswordEntryComponent, ChangePasswordEntryComponent],
+  entryComponents: [LoginComponent, RegisterComponent, RestorePasswordComponent, ChangePasswordComponent]
 })
 export class AuthModule { }
