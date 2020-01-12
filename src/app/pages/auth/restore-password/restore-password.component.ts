@@ -96,6 +96,7 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
   onForgotPasswordClicked() {
     this.formSubmitted = true;
     this.isFetching = true;
+    this.error = '';
 
     this.auth.forgotPassword(this.emailFormGroup.get('email').value)
       .pipe(
@@ -103,12 +104,13 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
       )
       .subscribe(
         value => {
-          console.log('Forgot result: ', value);
+          console.log('Forgot success: ', value);
           this.isFetching = false;
           this.access_token = value.access_token;
           this.message = value.message;
         },
         error => {
+          console.log('Forgot error: ', error);
           this.isFetching = false;
           this.error = error;
         });
@@ -117,6 +119,7 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
   onRestorePasswordClicked() {
     this.formSubmitted = true;
     this.isFetching = true;
+    this.error = '';
 
     this.auth.resetPasswordViaEmail(this.tokenToRestore, this.passwordFormGroup.get('password').value)
       .pipe(
@@ -130,6 +133,7 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
           this.message = value.message;
         },
         error => {
+          console.log('Restore password error: ', error);
           this.isFetching = false;
           this.error = error;
         });

@@ -7,9 +7,9 @@
 <form class="sign-in-form"
       [formGroup]="signInFormGroup">
   <mat-form-field class="inputs">
-    <input matInput placeholder="Email" formControlName="login">
+    <input matInput placeholder="Username" formControlName="login">
     <mat-error *ngIf="!isEmailValid()">
-      {{signInFormGroup.get('login').hasError('login') ? 'Please enter a valid login' : 'Login is required'}}
+      {{signInFormGroup.get('login').hasError('login') ? 'Please enter a valid username' : 'Username is required'}}
     </mat-error>
   </mat-form-field>
   <mat-form-field class="inputs">
@@ -20,7 +20,6 @@
     </mat-error>
   </mat-form-field>
   <div class="field">
-    <mat-checkbox color="primary">Remember me</mat-checkbox>
     <div class="buttons-section">
       <button mat-flat-button
               color="primary"

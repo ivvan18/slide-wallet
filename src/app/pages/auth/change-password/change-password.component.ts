@@ -85,21 +85,23 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
   onChangePasswordClicked() {
     this.formSubmitted = true;
     this.isFetching = true;
+    this.error = '';
 
     this.auth.changePassword(this.passwordFormGroup.get('current_password').value, this.passwordFormGroup.get('password').value)
       .pipe(
         takeUntil(this.destroy$)
       )
       .subscribe(
-        value => {
-          console.log('Change password result: ', value);
+        (value: any) => {
+          console.log('Change password success: ', value);
           this.isFetching = false;
           this.access_token = value.access_token;
           this.message = value.message;
         },
         error => {
+          console.log('Change password error: ', error);
           this.isFetching = false;
-          this.error = error;
+          this.error = error.error.message;
         });
   }
 

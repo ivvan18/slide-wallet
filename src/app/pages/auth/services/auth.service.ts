@@ -21,9 +21,10 @@ export class AuthService {
     return this.http.post(this.authUrl + '/login', copyObject);
   }
 
-  register(authData: {email: string, password: string}): Observable<any> {
+  register(authData: {username: string, email: string, password: string}): Observable<any> {
     const copyObject = {
-      username: authData.email,
+      username: authData.username,
+      email: authData.email,
       password: authData.password
     };
 

@@ -84,6 +84,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   onRegisterClicked() {
     this.formSubmitted = true;
     this.isFetching = true;
+    this.error = '';
 
     this.auth.register(this.registerFormGroup.getRawValue())
       .pipe(
@@ -91,13 +92,14 @@ export class RegisterComponent implements OnInit, OnDestroy {
       )
       .subscribe(
         value => {
-          console.log('Register result: ', value);
+          console.log('Register Success: ', value);
           this.isFetching = false;
           this.access_token = value.access_token;
         },
         error => {
+          console.log('Register Error: ', error);
           this.isFetching = false;
-          this.error = error;
+          this.error = error.error.message;
         });
   }
 

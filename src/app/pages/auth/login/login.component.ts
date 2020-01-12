@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.signInFormGroup = this.formBuilder.group({
-      login: ['', [Validators.required, Validators.email]],
+      login: ['', [Validators.required]],
       password: ['', Validators.required]
     });
 
@@ -47,6 +47,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   onSignInClicked() {
     this.formSubmitted = true;
     this.isFetching = true;
+    this.error = '';
 
     console.log('onSignInClicked: ', this.auth);
     this.auth.login(this.signInFormGroup.getRawValue())
@@ -55,12 +56,13 @@ export class LoginComponent implements OnInit, OnDestroy {
       )
       .subscribe(
         value => {
-        console.log('Login Result: ', value);
+        console.log('Login Success: ', value);
         this.isFetching = false;
       },
           error => {
+            console.log('Login Error: ', error);
             this.isFetching = false;
-            this.error = error;
+            this.error = error.error.message;
       });
   }
 
