@@ -1,3 +1,12 @@
-<p>
-  user-page works!
-</p>
+<div *ngIf="isLoading" class="loader-container">
+  <mat-spinner [diameter]="260"></mat-spinner>
+</div>
+
+<div *ngIf="!isLoading" class="page-container">
+  <div class="mat-display-2">
+    {{user.username}}
+  </div>
+  <div class="mat-h2">
+    {{user.email}}
+  </div>
+</div>
