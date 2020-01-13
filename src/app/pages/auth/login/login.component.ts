@@ -75,4 +75,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.dialogRef.close();
     this.router.navigate(['/auth/restore-password']);
   }
+
+  onCloseDialogClicked() {
+    this.dialogRef.close();
+    this.router.navigate(['/landing']);
+  }
 }

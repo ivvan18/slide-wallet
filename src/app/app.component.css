@@ -1,0 +1,10 @@
+.nav-section {
+  margin-left: 82px;
+  font-size: 16px;
+  display: flex;
+  flex-direction: row;
+}
+
+.nav-section-item {
+  margin-right: 40px;
+}

@@ -103,7 +103,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
         });
   }
 
-  onGoBackClicked() {
+  onCloseDialogClicked() {
     this.dialogRef.close();
     this.router.navigate(['/landing']);
   }

@@ -105,12 +105,7 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
         });
   }
 
-  onSignInClicked() {
-    this.dialogRef.close();
-    this.router.navigate(['/auth/login']);
-  }
-
-  onGoBackClicked() {
+  onCloseDialogClicked() {
     this.dialogRef.close();
     this.router.navigate(['/landing']);
   }

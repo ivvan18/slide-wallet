@@ -11,9 +11,12 @@ const routes: Routes = [
     path: 'landing',
     loadChildren: './pages/landing/landing.module#LandingModule'
   },
+  { path: 'users',
+    loadChildren: './pages/user-list/user-list.module#UserListModule'
+  },
   {
-    path: 'main',
-    loadChildren: './pages/main/main.module#MainModule'
+    path: 'user/:id',
+    loadChildren: './pages/user-page/user-page.module#UserPageModule'
   }
 ];
 
