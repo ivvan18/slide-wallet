@@ -1,0 +1,19 @@
+.full-width {
+  width: 100%;
+}
+
+.user-line {
+  cursor: pointer;
+}
+
+.user-line:hover {
+  background-color: #777
+}
+
+.loader-container {
+  height: 90vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

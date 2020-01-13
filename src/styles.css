@@ -18,3 +18,10 @@ body{
   font-family: Roboto, "Helvetica Neue", sans-serif;
   font-size: 16px;
 }
+
+.page-container {
+  height: 100%;
+  margin-top: 65px;
+  margin-right: 200px;
+  margin-left: 200px;
+}
