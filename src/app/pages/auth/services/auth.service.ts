@@ -1,16 +1,99 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {forkJoin, Observable, Subject} from 'rxjs';
 import {environment} from '../../../../environments/environment';
+import {IUser} from '../../../models/IUser';
+import {map} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private authUrl = environment.restUrl;
-
+  private readonly authUrl = environment.restUrl;
+  private readonly accessTokenKey = 'access_token';
+  private readonly refreshTokenKey = 'refresh_token';
+  user: any;
+  readonly usernameKey = 'username';
+  user$: any = new Subject();
 
   constructor(private http: HttpClient) {}
+
+  private decodeUser(token: string = localStorage[this.accessTokenKey]): any {
+    let user: any;
+
+    if (!token) {
+      return null;
+    }
+
+    try {
+      // if localStorage.token has not base-64 format
+      user = JSON.parse(atob(token.split('.')[1]));
+    } catch (e) {
+      console.warn(e);
+
+      return null;
+    }
+
+    return {
+      ...user,
+      access_token: this.accessToken,
+      refresh_token: this.refreshToken
+    };
+  }
+
+  private saveUserTokens(accessToken: string, refreshToken: string) {
+    localStorage.setItem(this.accessTokenKey, accessToken);
+    localStorage.setItem(this.refreshTokenKey, refreshToken);
+  }
+
+  private saveUserName(username: string) {
+    localStorage.setItem(this.usernameKey, username);
+    this.user$.next(this.user.identity);
+  }
+
+  private deleteUserTokens() {
+    localStorage.removeItem(this.accessTokenKey);
+    localStorage.removeItem(this.refreshTokenKey);
+  }
+
+  private deleteUserName() {
+    localStorage.removeItem(this.usernameKey);
+    this.user$.next(null);
+  }
+
+  get accessToken(): string {
+    return localStorage.getItem(this.accessTokenKey) || null;
+  }
+
+  get refreshToken(): string {
+    return localStorage.getItem(this.refreshTokenKey);
+  }
+
+  get username(): string {
+    return localStorage.getItem(this.usernameKey);
+  }
+
+  get isLoggedIn() {
+    return !!this.accessToken;
+  }
+
+  get currentUser(): IUser {
+    if (!this.user) {
+      this.user = this.decodeUser(this.accessToken);
+    }
+
+    return this.user;
+  }
+
+  init() {
+    console.log('Init');
+    if (this.isLoggedIn) {
+      this.user = this.decodeUser(this.accessToken);
+      this.user$.next(this.user.identity);
+    } else {
+      this.user$.next(null);
+    }
+  }
 
   login(authData: {login: string, password: string}): Observable<any> {
     const copyObject = {
@@ -18,17 +101,59 @@ export class AuthService {
       password: authData.password
     };
 
-    return this.http.post(this.authUrl + '/login', copyObject);
+    return this.http.post(this.authUrl + '/login', copyObject).pipe(
+      map((response: any) => {
+        console.log(response);
+        this.saveUserTokens(response[this.accessTokenKey], response[this.refreshTokenKey]);
+        this.user = this.decodeUser(response[this.accessTokenKey]);
+        this.saveUserName(this.user.identity);
+        console.log('Login Decoded user: ', this.user);
+        return response;
+      }),
+    );
   }
 
-  register(authData: {username: string, email: string, password: string}): Observable<any> {
-    const copyObject = {
-      username: authData.username,
-      email: authData.email,
-      password: authData.password
-    };
+  logout(): Observable<any> {
+    const logoutAccessToken = this.http.post(this.authUrl + '/logout/access', {}, {headers: {Authorization: 'Bearer ' + this.accessToken}});
+    const logoutRefreshToken = this.http.post(this.authUrl + '/logout/refresh', {}, {headers: {Authorization: 'Bearer ' + this.refreshToken}});
+    this.deleteUserTokens();
+    this.deleteUserName();
 
-    return this.http.post(this.authUrl + '/registration', copyObject);
+    return forkJoin(logoutAccessToken, logoutRefreshToken);
+  }
+
+  tokenRefresh(): Observable<any> {
+    const refreshToken = this.refreshToken;
+    const data = {refresh_token: refreshToken};
+
+    this.deleteUserTokens();
+    this.deleteUserName();
+
+    return this.http.post(this.authUrl + '/token/refresh', {}, {headers: {Authorization: 'Bearer ' + this.refreshToken}}).pipe(
+      map(response => {
+        console.log('tokenRefresh: ', response);
+
+        // Note that RefreshAPI doesn't return refresh
+        // token as well and we have to preserve existing one
+        this.saveUserTokens(response[this.accessTokenKey], response[this.refreshTokenKey]);
+        this.user = this.decodeUser(response[this.accessTokenKey]);
+        this.saveUserName(this.user.identity);
+        return response;
+      }),
+    );
+  }
+
+  register(authData: {username: string, email: string, password: string, name: string, surname: string}): Observable<any> {
+    return this.http.post(this.authUrl + '/registration', authData).pipe(
+      map((response: any) => {
+        console.log(response);
+        this.saveUserTokens(response[this.accessTokenKey], response[this.refreshTokenKey]);
+        this.user = this.decodeUser(response[this.accessTokenKey]);
+        this.saveUserName(this.user.identity);
+        console.log('Register Decoded user: ', this.user);
+        return response;
+      }),
+    );
   }
 
   forgotPassword(email: string): Observable<any> {

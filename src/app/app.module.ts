@@ -6,9 +6,9 @@ import {RouterModule} from '@angular/router';
 import {AppRoutingModule} from './app-routing.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HttpClientModule} from '@angular/common/http';
-import {MatToolbarModule} from '@angular/material';
+import {MatDividerModule, MatIconModule, MatMenuModule, MatToolbarModule} from '@angular/material';
 
-const MAT_MODULES = [MatToolbarModule];
+const MAT_MODULES = [MatToolbarModule, MatIconModule, MatMenuModule, MatDividerModule];
 
 @NgModule({
   declarations: [

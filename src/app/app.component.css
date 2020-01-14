@@ -3,8 +3,14 @@
   font-size: 16px;
   display: flex;
   flex-direction: row;
+  align-items: center;
+  width: 100%;
 }
 
 .nav-section-item {
   margin-right: 40px;
+}
+
+.account {
+  margin: 0 0 0 auto;
 }

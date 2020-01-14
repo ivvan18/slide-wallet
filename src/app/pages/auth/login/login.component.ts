@@ -58,6 +58,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         value => {
         console.log('Login Success: ', value);
         this.isFetching = false;
+        this.onCloseDialogClicked();
       },
           error => {
             console.log('Login Error: ', error);

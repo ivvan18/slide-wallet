@@ -4,9 +4,12 @@
 
 <div *ngIf="!isLoading" class="page-container">
   <div class="mat-display-2">
-    {{user.username}}
+    {{user.name}}&nbsp;{{user.surname}}
   </div>
   <div class="mat-h2">
     {{user.email}}
+  </div>
+  <div class="mat-h2">
+    {{user.username}}
   </div>
 </div>
