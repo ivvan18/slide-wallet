@@ -1,4 +1,4 @@
-<div class="registration-container">
+<div *ngIf="!user" class="registration-container">
   <h1 class="mat-display-2 info-header">Start using Slide-wallet for free!</h1>
   <div class="title-container">
     <mat-grid-list cols="2" rowHeight="70px">
@@ -31,4 +31,28 @@
       </mat-grid-tile>
     </mat-grid-list>
   </div>
+</div>
+<mat-divider></mat-divider>
+<h1 class="mat-display-2 info-header">Our main capabilities</h1>
+<div class="capabilities-container">
+  <mat-grid-list cols="3" rowHeight="140px">
+    <mat-grid-tile>
+      <mat-icon class="icon-item">attach_money</mat-icon>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <mat-icon class="icon-item">local_grocery_store</mat-icon>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <mat-icon class="icon-item">search</mat-icon>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <p class="theme-text mat-h3">Get virtual currency called slide-wallet inside your organization for special achievements.</p>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <p class="theme-text mat-h3">Spend your slide-wallet coins on real items in store.</p>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <p class="theme-text mat-h3">Search for colleges and make transactions between each other.</p>
+    </mat-grid-tile>
+  </mat-grid-list>
 </div>

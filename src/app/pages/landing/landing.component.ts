@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
+import {AuthService} from '../auth/services/auth.service';
 
 @Component({
   selector: 'app-landing',
@@ -7,10 +8,16 @@ import {Router} from '@angular/router';
   styleUrls: ['./landing.component.css']
 })
 export class LandingComponent implements OnInit {
-
-  constructor(private router: Router) {}
+  user: any;
+  constructor(private router: Router, private auth: AuthService) {}
 
   ngOnInit() {
+    this.auth.user$.subscribe(user => {
+      console.log('User updated: ', user);
+      this.user = user;
+    });
+
+    this.auth.init();
   }
 
   onRegisterButtonClicked() {

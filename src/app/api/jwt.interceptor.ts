@@ -34,7 +34,7 @@ export const constructHeader = (token: string) => {
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
-  refreshActionCode = 400;
+  refreshActionCode = 401;
 
   private refreshTokenInProgress = false;
   private refreshTokenSubject = new BehaviorSubject<boolean>(false);
@@ -42,6 +42,7 @@ export class JwtInterceptor implements HttpInterceptor {
   constructor(private auth: AuthService, private router: Router) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<AnyHttpEvent> {
+    console.log('Intercepting request: ', request);
     return next.handle(this.addTokenRequest(request)).pipe(
       catchError((err: HttpErrorResponse) => {
         if (err.status === this.refreshActionCode) {
@@ -56,6 +57,7 @@ export class JwtInterceptor implements HttpInterceptor {
           return this.refreshAndRetry(request, next);
         }
 
+        console.log('Throwing error!');
         return throwError(err);
       }),
     );
@@ -75,6 +77,7 @@ export class JwtInterceptor implements HttpInterceptor {
   }
 
   private addTokenRequest(request: HttpRequest<any>): HttpRequest<any> {
+    console.log('Adding token to request: ', this.isHeaderRequired(request) && this.auth.accessToken);
     return this.isHeaderRequired(request) && this.auth.accessToken
       ? request.clone({setHeaders: constructHeader(this.auth.accessToken)})
       : request;
