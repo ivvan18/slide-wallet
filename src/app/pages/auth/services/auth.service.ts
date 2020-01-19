@@ -13,7 +13,7 @@ export class AuthService {
   private readonly accessTokenKey = 'access_token';
   private readonly refreshTokenKey = 'refresh_token';
   user: any;
-  readonly usernameKey = 'username';
+  readonly userKey = 'user';
   user$: any = new Subject();
 
   constructor(private http: HttpClient) {}
@@ -46,8 +46,8 @@ export class AuthService {
     localStorage.setItem(this.refreshTokenKey, refreshToken);
   }
 
-  private saveUserName(username: string) {
-    localStorage.setItem(this.usernameKey, username);
+  private saveUser(user: IUser) {
+    localStorage.setItem(this.userKey, JSON.stringify(user));
     this.user$.next(this.user.identity);
   }
 
@@ -56,8 +56,8 @@ export class AuthService {
     localStorage.removeItem(this.refreshTokenKey);
   }
 
-  private deleteUserName() {
-    localStorage.removeItem(this.usernameKey);
+  private deleteUser() {
+    localStorage.removeItem(this.userKey);
     this.user$.next(null);
   }
 
@@ -69,10 +69,6 @@ export class AuthService {
     return localStorage.getItem(this.refreshTokenKey);
   }
 
-  get username(): string {
-    return localStorage.getItem(this.usernameKey);
-  }
-
   get isLoggedIn() {
     return !!this.accessToken;
   }
@@ -82,7 +78,9 @@ export class AuthService {
       this.user = this.decodeUser(this.accessToken);
     }
 
-    return this.user;
+    console.log('currentUser: ', this.user);
+
+    return this.user.identity as IUser;
   }
 
   init() {
@@ -106,7 +104,7 @@ export class AuthService {
         console.log(response);
         this.saveUserTokens(response[this.accessTokenKey], response[this.refreshTokenKey]);
         this.user = this.decodeUser(response[this.accessTokenKey]);
-        this.saveUserName(this.user.identity);
+        this.saveUser(this.user.identity);
         console.log('Login Decoded user: ', this.user);
         return response;
       }),
@@ -117,7 +115,7 @@ export class AuthService {
     const logoutAccessToken = this.http.post(this.authUrl + '/logout/access', {}, {headers: {Authorization: 'Bearer ' + this.accessToken}});
     const logoutRefreshToken = this.http.post(this.authUrl + '/logout/refresh', {}, {headers: {Authorization: 'Bearer ' + this.refreshToken}});
     this.deleteUserTokens();
-    this.deleteUserName();
+    this.deleteUser();
 
     return forkJoin(logoutAccessToken, logoutRefreshToken);
   }
@@ -127,7 +125,7 @@ export class AuthService {
     const data = {refresh_token: refreshToken};
 
     this.deleteUserTokens();
-    this.deleteUserName();
+    this.deleteUser();
 
     return this.http.post(this.authUrl + '/token/refresh', {}, {headers: {Authorization: 'Bearer ' + this.refreshToken}}).pipe(
       map(response => {
@@ -137,7 +135,7 @@ export class AuthService {
         // token as well and we have to preserve existing one
         this.saveUserTokens(response[this.accessTokenKey], response[this.refreshTokenKey]);
         this.user = this.decodeUser(response[this.accessTokenKey]);
-        this.saveUserName(this.user.identity);
+        this.saveUser(this.user.identity);
         return response;
       }),
     );
@@ -149,7 +147,7 @@ export class AuthService {
         console.log(response);
         this.saveUserTokens(response[this.accessTokenKey], response[this.refreshTokenKey]);
         this.user = this.decodeUser(response[this.accessTokenKey]);
-        this.saveUserName(this.user.identity);
+        this.saveUser(this.user.identity);
         console.log('Register Decoded user: ', this.user);
         return response;
       }),
@@ -161,7 +159,16 @@ export class AuthService {
   }
 
   resetPasswordViaEmail(token: string, new_password: string): Observable<any>  {
-    return this.http.post(this.authUrl + '/password/forgot/reset/' + token, {new_password: new_password});
+    return this.http.post(this.authUrl + '/password/forgot/reset/' + token, {new_password: new_password}).pipe(
+      map((response: any) => {
+        console.log(response);
+        this.saveUserTokens(response[this.accessTokenKey], response[this.refreshTokenKey]);
+        this.user = this.decodeUser(response[this.accessTokenKey]);
+        this.saveUser(this.user.identity);
+        console.log('resetPasswordViaEmail Decoded user: ', this.user);
+        return response;
+      }),
+    );
   }
 
   changePassword(current_password: string, password: string) {

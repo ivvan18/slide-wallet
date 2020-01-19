@@ -1,0 +1,10 @@
+{
+    "applinks": {
+        "apps": [],
+        "restore": [{
+            "appID": "B2FMGUSH44.com.olejiksa.slidecurrency",
+            "paths": ["/auth/restore-password?token=*"]
+            }
+        }]
+    }
+}

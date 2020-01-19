@@ -37,8 +37,7 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
   passwordFormGroup: FormGroup;
   error = '';
   isFetching = false;
-  access_token = '';
-  message = '';
+  successMessage = '';
   formSubmitted = false;
   hideCurrentPassword = true;
   hidePassword = true;
@@ -95,8 +94,7 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
         (value: any) => {
           console.log('Change password success: ', value);
           this.isFetching = false;
-          this.access_token = value.access_token;
-          this.message = value.message;
+          this.successMessage = value.message;
         },
         error => {
           console.log('Change password error: ', error);

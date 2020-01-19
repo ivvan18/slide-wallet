@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import {AuthService} from '../auth/services/auth.service';
+import {IUser} from '../../models/IUser';
 
 @Component({
   selector: 'app-landing',
@@ -8,7 +9,7 @@ import {AuthService} from '../auth/services/auth.service';
   styleUrls: ['./landing.component.css']
 })
 export class LandingComponent implements OnInit {
-  user: any;
+  user: IUser;
   constructor(private router: Router, private auth: AuthService) {}
 
   ngOnInit() {

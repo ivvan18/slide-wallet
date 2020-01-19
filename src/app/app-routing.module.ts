@@ -14,6 +14,9 @@ const routes: Routes = [
   { path: 'users',
     loadChildren: './pages/user-list/user-list.module#UserListModule'
   },
+  { path: 'profile',
+    loadChildren: './pages/profile/profile.module#ProfileModule'
+  },
   {
     path: 'user/:id',
     loadChildren: './pages/user-page/user-page.module#UserPageModule'

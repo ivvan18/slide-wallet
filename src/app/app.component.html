@@ -9,8 +9,10 @@
 </mat-toolbar>
 <router-outlet></router-outlet>
 <mat-menu #menu="matMenu">
-  <div mat-menu-item>{{user}}</div>
-  <mat-divider></mat-divider>
-  <button mat-menu-item (click)="navigate('auth/change-password')">Change password</button>
-  <button mat-menu-item (click)="onLogoutClicked()">Logout</button>
+  <ng-container *ngIf="user">
+    <div mat-menu-item (click)="navigate('profile')">{{user.username}}</div>
+    <mat-divider></mat-divider>
+    <button mat-menu-item (click)="navigate('auth/change-password')">Change password</button>
+    <button mat-menu-item (click)="onLogoutClicked()">Logout</button>
+  </ng-container>
 </mat-menu>

@@ -1,8 +1,4 @@
-<div *ngIf="isLoading" class="loader-container">
-  <mat-spinner [diameter]="260"></mat-spinner>
-</div>
-
-<div *ngIf="!isLoading" class="page-container">
+<div *ngIf="user" class="page-container">
   <div class="mat-display-2">
     {{user.name}}&nbsp;{{user.surname}}
   </div>
@@ -16,3 +12,4 @@
     {{user.username}}
   </div>
 </div>
+

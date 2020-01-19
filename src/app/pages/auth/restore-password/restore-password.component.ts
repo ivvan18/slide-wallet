@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {AuthService} from '../services/auth.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ErrorStateMatcher, MatDialogRef} from '@angular/material';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
@@ -38,13 +38,11 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
   passwordFormGroup: FormGroup;
   error = '';
   isFetching = false;
-  access_token = '';
-  message = '';
+  successMessage = '';
   formSubmitted = false;
   hidePassword = true;
   hidePasswordRepeat = true;
   repeatPasswordMatcher = new RepeatPasswordMatcher();
-  tokenToRestore = '';
   queryParam = '';
 
   private readonly destroy$ = new Subject();
@@ -53,10 +51,16 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private auth: AuthService,
     private router: Router,
+    private route: ActivatedRoute,
     private dialogRef: MatDialogRef<RestorePasswordComponent>,
   ) { }
 
   ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      this.queryParam = params['token'];
+      console.log('queryParam: ', this.queryParam);
+    });
+
     this.emailFormGroup = this.formBuilder.group(
       {
         email: ['', [Validators.required, Validators.email]],
@@ -106,13 +110,12 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
         value => {
           console.log('Forgot success: ', value);
           this.isFetching = false;
-          this.access_token = value.access_token;
-          this.message = value.message;
+          this.successMessage = value.message;
         },
         error => {
           console.log('Forgot error: ', error);
           this.isFetching = false;
-          this.error = error;
+          this.error = error.error.message;
         });
   }
 
@@ -121,7 +124,7 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
     this.isFetching = true;
     this.error = '';
 
-    this.auth.resetPasswordViaEmail(this.tokenToRestore, this.passwordFormGroup.get('password').value)
+    this.auth.resetPasswordViaEmail(this.queryParam, this.passwordFormGroup.get('password').value)
       .pipe(
         takeUntil(this.destroy$)
       )
@@ -129,13 +132,12 @@ export class RestorePasswordComponent implements OnInit, OnDestroy {
         value => {
           console.log('Restore password result: ', value);
           this.isFetching = false;
-          this.access_token = value.access_token;
-          this.message = value.message;
+          this.successMessage = value.message;
         },
         error => {
           console.log('Restore password error: ', error);
           this.isFetching = false;
-          this.error = error;
+          this.error = error.error.message;
         });
   }
 
