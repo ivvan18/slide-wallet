@@ -14,6 +14,10 @@ const routes: Routes = [
   { path: 'users',
     loadChildren: './pages/user-list/user-list.module#UserListModule'
   },
+  {
+    path: 'transactions',
+    loadChildren: './pages/transactions/transactions.module#TransactionsModule'
+  },
   { path: 'profile',
     loadChildren: './pages/profile/profile.module#ProfileModule'
   },

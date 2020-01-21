@@ -14,7 +14,7 @@ import {Subject} from 'rxjs';
 export class UserListComponent implements OnInit, OnDestroy {
   isLoading = true;
   users: IUser[] = [];
-  displayedColumns: string[] = ['id', 'username', 'email'];
+  displayedColumns: string[] = ['id', 'username', 'name', 'surname', 'email', 'balance'];
   dataSource: MatTableDataSource<IUser>;
   private destroy$ = new Subject();
 
