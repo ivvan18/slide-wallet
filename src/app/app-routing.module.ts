@@ -21,6 +21,9 @@ const routes: Routes = [
   { path: 'profile',
     loadChildren: './pages/profile/profile.module#ProfileModule'
   },
+  { path: 'feedback',
+    loadChildren: './pages/feedback/feedback.module#FeedbackModule'
+  },
   {
     path: 'user/:id',
     loadChildren: './pages/user-page/user-page.module#UserPageModule'

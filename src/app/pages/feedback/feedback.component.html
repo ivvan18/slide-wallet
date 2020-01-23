@@ -1,0 +1,44 @@
+<div *ngIf="!successMessage; else emailSend">
+  <mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <h1 class = "mat-h1">Feedback</h1>
+      <mat-icon class="close-dialog-icon" (click)="onCloseDialogClicked()">close</mat-icon>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <form class="sign-in-form"
+        [formGroup]="feedbackFormGroup">
+    <mat-form-field class="inputs">
+      <textarea matInput placeholder="Message" formControlName="message"></textarea>
+      <mat-error *ngIf="feedbackFormGroup.get('message').hasError('required')">
+        Message is required
+      </mat-error>
+      <mat-error *ngIf="feedbackFormGroup.get('message').hasError('maxlength')">
+        Maximum length of 1000 symbols exceeded
+      </mat-error>
+    </mat-form-field>
+    <div class="field">
+      <div class="buttons-section">
+        <button mat-flat-button
+                color="primary"
+                class="feedback-button"
+                (click)="onSendFeedbackClicked()"
+                [disabled]="!feedbackFormGroup.valid || isFetching">{{ isFetching ? '' : 'Send feedback'}}<mat-spinner *ngIf="isFetching" class="spinner" [diameter]="20"></mat-spinner></button>
+      </div>
+      <mat-error *ngIf="error && formSubmitted" class="back-section">
+        {{error}}
+      </mat-error>
+    </div>
+  </form>
+</div>
+
+<ng-template #emailSend>
+  <div class="sign-in-form email-send-container">
+    <img src="../../../assets/auth/completed.svg" style="height: 180px">
+    <span class="header">Success</span>
+    <span class="mat-subheading-2 subheading">{{successMessage}}</span>
+    <button mat-flat-button
+            color="primary"
+            (click)="onCloseDialogClicked()">Go back</button>
+  </div>
+</ng-template>

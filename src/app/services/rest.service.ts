@@ -18,4 +18,8 @@ export class RestService {
   getEntityById(entity: string, id: number): Observable<any> {
     return this.http.get(this.restUrl + `/${entity}/${id}`);
   }
+
+  postEntity(entity: string, body: any): Observable<any> {
+    return this.http.post(this.restUrl + `/${entity}`, body);
+  }
 }

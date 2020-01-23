@@ -17,7 +17,7 @@ export class TransactionsComponent implements OnInit, OnDestroy {
   isLoading = true;
   transactions: ITransaction[] = [];
   users: IUser[] = [];
-  userMap = {};
+  userMap = { 0: 'Store'};
   displayedColumns: string[] = ['id', 'amount', 'date', 'from', 'to'];
   dataSource: MatTableDataSource<ITransaction>;
   private destroy$ = new Subject();
