@@ -45,7 +45,7 @@ export class FeedbackComponent implements OnInit, OnDestroy {
     this.error = '';
 
     console.log('onSendFeedbackClicked: ', this.feedbackFormGroup.getRawValue());
-    this.rest.postEntity('support', this.feedbackFormGroup.getRawValue().message)
+    this.rest.postEntity('support', { body: this.feedbackFormGroup.getRawValue().message})
       .pipe(
         takeUntil(this.destroy$),
       )
