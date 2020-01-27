@@ -1,0 +1,29 @@
+.store-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.example-card {
+  max-width: 250px;
+  max-height: 470px;
+}
+
+.example-card:nth-child(n) {
+  margin-right: 40px;
+}
+
+.item-photo {
+  max-height: 230px;
+}
+
+.spinner {
+  margin: auto;
+  opacity: 1;
+  transition: opacity .3s ease-in-out;
+}
+
+.purchase-button {
+  display: block;
+  height: 36px;
+}

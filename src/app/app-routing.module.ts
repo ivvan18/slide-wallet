@@ -27,6 +27,10 @@ const routes: Routes = [
   {
     path: 'user/:id',
     loadChildren: './pages/user-page/user-page.module#UserPageModule'
+  },
+  {
+    path: 'store',
+    loadChildren: './pages/store/store.module#StoreModule'
   }
 ];
 

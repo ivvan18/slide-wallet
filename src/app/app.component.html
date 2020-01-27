@@ -4,7 +4,7 @@
   <div class="nav-section">
     <div class="nav-section-item clicable" (click)="navigate('users')">User list</div>
     <div class="nav-section-item clicable" (click)="navigate('transactions')">Transactions</div>
-    <div class="nav-section-item clicable">Store</div>
+    <div class="nav-section-item clicable" (click)="navigate('store')">Store</div>
     <div class="nav-section-item clicable" (click)="navigate('feedback')">Feedback</div>
     <mat-icon *ngIf="user" class="account clicable" [matMenuTriggerFor]="menu">account_circle</mat-icon>
   </div>
