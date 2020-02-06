@@ -127,7 +127,7 @@ export class AuthService {
     this.deleteUserTokens();
     this.deleteUser();
 
-    return this.http.post(this.authUrl + '/token/refresh', {}, {headers: {Authorization: 'Bearer ' + this.refreshToken}}).pipe(
+    return this.http.post(this.authUrl + '/token/refresh', data, {headers: {Authorization: 'Bearer ' + refreshToken}}).pipe(
       map(response => {
         console.log('tokenRefresh: ', response);
 

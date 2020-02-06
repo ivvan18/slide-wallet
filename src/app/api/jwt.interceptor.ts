@@ -18,7 +18,7 @@ import {environment} from '../../environments/environment';
 import {AuthService} from '../pages/auth/services/auth.service';
 import {Router} from '@angular/router';
 
-const authPaths = ['/auth/register', '/auth/login', '/password/forgot'];
+const authPaths = ['/auth/register', '/token/refresh', '/auth/login', '/password/forgot'];
 
 type AnyHttpEvent =
   | HttpSentEvent
@@ -42,11 +42,18 @@ export class JwtInterceptor implements HttpInterceptor {
   constructor(private auth: AuthService, private router: Router) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<AnyHttpEvent> {
+    if (request.url.includes('/token/refresh')) {
+      return next.handle(request);
+    }
+
     console.log('Intercepting request: ', request);
     return next.handle(this.addTokenRequest(request)).pipe(
       catchError((err: HttpErrorResponse) => {
         if (err.status === this.refreshActionCode) {
+          console.log('Catching 401 error.');
           if (this.refreshTokenInProgress) {
+            console.log('step A');
+
             return this.refreshTokenSubject.pipe(
               filter(inProgress => !inProgress),
               take(1),
@@ -54,6 +61,7 @@ export class JwtInterceptor implements HttpInterceptor {
             );
           }
 
+          console.log('step B');
           return this.refreshAndRetry(request, next);
         }
 
@@ -71,9 +79,11 @@ export class JwtInterceptor implements HttpInterceptor {
   }
 
   private refreshTokenExpired() {
-    this.auth
-      .logout()
-      .subscribe(() => this.router.navigate(['auth/login']));
+    // this.auth
+    //   .logout()
+    //   .subscribe(() => this.router.navigate(['auth/login']));
+
+    this.router.navigate(['auth/login']);
   }
 
   private addTokenRequest(request: HttpRequest<any>): HttpRequest<any> {
@@ -87,17 +97,21 @@ export class JwtInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler,
   ): Observable<HttpEvent<any>> {
+    console.log('refreshAndRetry request');
+
     this.refreshTokenInProgress = true;
     this.refreshTokenSubject.next(true);
 
     return this.auth.tokenRefresh().pipe(
       catchError(response => {
+        console.log('refreshAndRetry request ERROR');
         this.refreshTokenInProgress = false;
         this.refreshTokenExpired();
 
         return throwError(response.error.error);
       }),
       switchMap(() => {
+        console.log('refreshAndRetry request SUCCESS');
         this.refreshTokenInProgress = false;
         this.refreshTokenSubject.next(false);
 

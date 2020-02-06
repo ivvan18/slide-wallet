@@ -6,10 +6,10 @@ import {RouterModule} from '@angular/router';
 import {AppRoutingModule} from './app-routing.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {MatDividerModule, MatIconModule, MatMenuModule, MatToolbarModule} from '@angular/material';
+import {MatDividerModule, MatIconModule, MatMenuModule, MatSortModule, MatTableModule, MatToolbarModule} from '@angular/material';
 import {JwtInterceptor} from './api/jwt.interceptor';
 
-const MAT_MODULES = [MatToolbarModule, MatIconModule, MatMenuModule, MatDividerModule];
+const MAT_MODULES = [MatToolbarModule, MatIconModule, MatMenuModule, MatDividerModule, MatTableModule, MatSortModule];
 
 @NgModule({
   declarations: [

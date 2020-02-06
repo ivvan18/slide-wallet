@@ -18,7 +18,7 @@ export class TransactionsComponent implements OnInit, OnDestroy {
   transactions: ITransaction[] = [];
   users: IUser[] = [];
   userMap = { 0: 'Store'};
-  displayedColumns: string[] = ['id', 'amount', 'date', 'from', 'to'];
+  displayedColumns: string[] = ['id', 'amount', 'date', 'sender_id', 'receiver_id'];
   dataSource: MatTableDataSource<ITransaction>;
   private destroy$ = new Subject();
 
@@ -37,6 +37,12 @@ export class TransactionsComponent implements OnInit, OnDestroy {
         this.users.forEach(user => {
           this.userMap[user.id] = user.username;
         });
+
+        this.transactions.forEach(transaction => {
+          transaction.sender_id = this.userMap[transaction.sender_id];
+          transaction.receiver_id = this.userMap[transaction.receiver_id];
+        });
+
         this.dataSource = new MatTableDataSource(this.transactions);
       });
   }

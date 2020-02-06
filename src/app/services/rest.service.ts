@@ -22,4 +22,9 @@ export class RestService {
   postEntity(entity: string, body: any): Observable<any> {
     return this.http.post(this.restUrl + `/${entity}`, body);
   }
+
+  deleteEntity(entity: string, body: any): Observable<any> {
+    console.log(body);
+    return this.http.delete(this.restUrl + `/${entity}`, {params: body});
+  }
 }

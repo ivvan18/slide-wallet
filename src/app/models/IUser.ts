@@ -5,4 +5,5 @@ export interface IUser {
   name: string;
   surname: string;
   balance: number;
+  isAdmin: boolean;
 }

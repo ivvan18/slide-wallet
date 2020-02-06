@@ -9,3 +9,7 @@
 .user-line:hover {
   background-color: #777
 }
+
+.delete-column {
+  width: 90px;
+}

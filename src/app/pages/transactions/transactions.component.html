@@ -27,14 +27,14 @@
       <td mat-cell *matCellDef="let element"> {{element.date | date}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="from">
+    <ng-container matColumnDef="sender_id">
       <th mat-header-cell *matHeaderCellDef> From </th>
-      <td mat-cell *matCellDef="let element"> {{userMap[element.sender_id]}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.sender_id}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="to">
+    <ng-container matColumnDef="receiver_id">
       <th mat-header-cell *matHeaderCellDef> To </th>
-      <td mat-cell *matCellDef="let element"> {{userMap[element.receiver_id]}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.receiver_id}} </td>
     </ng-container>
 
 
