@@ -2,16 +2,25 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserPageComponent } from './user-page.component';
 import {UserPageRoutingModule} from './user-page-routing.module';
-import {MatProgressSpinnerModule} from '@angular/material';
+import {MatButtonModule, MatFormFieldModule, MatInputModule, MatProgressSpinnerModule, MatSnackBarModule} from '@angular/material';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
-const MAT_MODULES = [MatProgressSpinnerModule];
+const MAT_MODULES = [
+    MatProgressSpinnerModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatSnackBarModule
+  ];
 
 @NgModule({
   declarations: [UserPageComponent],
   imports: [
     MAT_MODULES,
     CommonModule,
-    UserPageRoutingModule
+    UserPageRoutingModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class UserPageModule { }

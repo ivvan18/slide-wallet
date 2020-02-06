@@ -11,6 +11,7 @@
 
 .example-card:nth-child(n) {
   margin-right: 40px;
+  margin-bottom: 40px;
 }
 
 .item-photo {
@@ -26,4 +27,16 @@
 .purchase-button {
   display: block;
   height: 36px;
+}
+
+.header-section {
+  display: flex;
+  flex-direction: row;
+  width: 300px;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.buttons-container {
+  display: flex;
 }

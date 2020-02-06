@@ -3,8 +3,11 @@
 </div>
 
 <div *ngIf="!isLoading" class="page-container">
-  <div class="mat-display-1">
-    Store
+  <div class="header-section">
+    <div class="mat-display-1">
+      Store
+    </div>
+    <button *ngIf="user.isAdmin" mat-flat-button color="primary" (click)="navigate('store-item/new')">Add store item</button>
   </div>
   <div class="store-container">
     <mat-card *ngFor="let storeItem of storeItems" class="example-card">
@@ -18,8 +21,10 @@
           {{storeItem.description}}
         </p>
       </mat-card-content>
-      <mat-card-actions>
+      <mat-card-actions class="buttons-container">
         <button mat-button class="purchase-button" (click)="onBuyItemClicked(storeItem.id)">{{ loadingPurchaseId === storeItem.id ? '' : 'BUY'}}<mat-spinner *ngIf="loadingPurchaseId === storeItem.id" class="spinner" [diameter]="20"></mat-spinner></button>
+        <button *ngIf="user.isAdmin" mat-button class="purchase-button" (click)="navigate('store-item/' + storeItem.id)">UPDATE</button>
+        <button *ngIf="user.isAdmin" mat-button class="purchase-button" (click)="onDeleteItemClicked(storeItem.id)">DELETE</button>
       </mat-card-actions>
     </mat-card>
   </div>

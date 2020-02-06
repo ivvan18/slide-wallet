@@ -3,8 +3,27 @@
 </div>
 
 <div *ngIf="!isLoading" class="page-container">
-  <div class="mat-display-2">
-    {{user.name}}&nbsp;{{user.surname}}
+  <div class="main-section">
+    <div class="mat-display-2">
+      {{user.name}}&nbsp;{{user.surname}}
+    </div>
+    <div class="buttons-section">
+      <form class="example-form" [formGroup]="transferFormGroup">
+        <mat-form-field class="example-form">
+          <input type="number" matInput placeholder="Transfer amount" formControlName="amount">
+          <mat-error *ngIf="!transferFormGroup.get('amount').valid">
+            {{'Amount is required'}}
+          </mat-error>
+        </mat-form-field>
+        <mat-error class="error-section" *ngIf="transferError && formSubmitted">
+          {{transferError}}
+        </mat-error>
+      </form>
+      <button mat-flat-button
+              color="primary"
+              (click)="onTransferMoney(transferFormGroup.get('amount').value)"
+              [disabled]="!transferFormGroup.valid || isTransferLoading">{{ isTransferLoading ? '' : 'Transfer money'}}<mat-spinner *ngIf="isTransferLoading" class="spinner" [diameter]="20"></mat-spinner></button>
+    </div>
   </div>
   <div class="mat-h2">
     {{user.balance}}&nbsp;$

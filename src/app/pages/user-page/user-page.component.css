@@ -1,0 +1,23 @@
+.main-section {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 800px;
+}
+
+.example-form {
+  width: 150px;
+}
+
+.buttons-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 300px;
+  height: 46px;
+}
+
+.error-section {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: 75%;
+}

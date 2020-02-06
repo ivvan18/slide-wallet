@@ -29,6 +29,10 @@ const routes: Routes = [
     loadChildren: './pages/user-page/user-page.module#UserPageModule'
   },
   {
+    path: 'store-item/:id',
+    loadChildren: './pages/store-item-edit/store-item-edit.module#StoreItemEditModule'
+  },
+  {
     path: 'store',
     loadChildren: './pages/store/store.module#StoreModule'
   }

@@ -1,0 +1,41 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <h1 class = "mat-h1">Store item</h1>
+    <mat-icon class="close-dialog-icon" (click)="onCloseDialogClicked()">close</mat-icon>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div *ngIf="isLoading" class="loader-container pre-loader">
+  <mat-spinner [diameter]="260"></mat-spinner>
+</div>
+
+<form *ngIf="!isLoading" class="sign-in-form"
+      [formGroup]="storeItemEditFromGroup">
+  <mat-form-field class="inputs">
+    <input matInput placeholder="Name" formControlName="name">
+    <mat-error *ngIf="!isNameValid()">
+      {{storeItemEditFromGroup.get('name').hasError('name') ? 'Please enter a valid username' : 'Name is required'}}
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field class="inputs">
+    <input matInput placeholder="Description" formControlName="description">
+    <mat-error *ngIf="!isDescriptionValid()">
+      {{storeItemEditFromGroup.get('description').hasError('description') ? 'Please enter a valid description' : 'Description maximum length exceeded'}}
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field class="inputs">
+    <input type="number" matInput placeholder="Price" formControlName="price">
+  </mat-form-field>
+  <div class="field">
+    <div class="buttons-section">
+      <button mat-flat-button
+              color="primary"
+              class="sign-in-button"
+              (click)="onActionClicked()"
+              [disabled]="!storeItemEditFromGroup.valid || isFetching">{{ isFetching ? '' : isNewEntity ? 'Add' : 'Edit'}}<mat-spinner *ngIf="isFetching" class="spinner" [diameter]="20"></mat-spinner></button>
+    </div>
+    <mat-error *ngIf="error && formSubmitted" class="back-section">
+      {{error}}
+    </mat-error>
+  </div>
+</form>
