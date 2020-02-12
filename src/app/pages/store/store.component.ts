@@ -58,6 +58,11 @@ export class StoreComponent implements OnInit, OnDestroy {
         response => {
           console.log('Success purchase: ', response);
           this.resultMessage = response.message;
+          this.auth.tokenRefresh()
+            .subscribe(
+              () => console.log('Token successfully refreshed!'),
+              () => console.log('Token refresh failed!')
+            );
         },
         error => {
           console.log('Error purchase: ', error);
