@@ -2,7 +2,14 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserPageComponent } from './user-page.component';
 import {UserPageRoutingModule} from './user-page-routing.module';
-import {MatButtonModule, MatFormFieldModule, MatInputModule, MatProgressSpinnerModule, MatSnackBarModule} from '@angular/material';
+import {
+  MatButtonModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatProgressSpinnerModule,
+  MatSnackBarModule,
+  MatTableModule
+} from '@angular/material';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 const MAT_MODULES = [
@@ -10,7 +17,8 @@ const MAT_MODULES = [
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatTableModule
   ];
 
 @NgModule({

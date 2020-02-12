@@ -21,3 +21,15 @@
   font-family: Roboto, "Helvetica Neue", sans-serif;
   font-size: 75%;
 }
+
+.full-width {
+  width: 100%;
+}
+
+.user-line {
+  cursor: pointer;
+}
+
+.user-line:hover {
+  background-color: #777
+}
