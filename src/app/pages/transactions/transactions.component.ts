@@ -1,6 +1,6 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {IUser} from '../../models/IUser';
-import {MatTableDataSource} from '@angular/material';
+import {MatPaginator, MatTableDataSource} from '@angular/material';
 import {forkJoin, Subject} from 'rxjs';
 import {Router} from '@angular/router';
 import {RestService} from '../../services/rest.service';
@@ -13,25 +13,37 @@ import {ITransaction} from '../../models/ITransaction';
   styleUrls: ['./transactions.component.css']
 })
 export class TransactionsComponent implements OnInit, OnDestroy {
-
+  pageSize = 10;
+  pageIndex = 0;
+  transactionsCount: number;
   isLoading = true;
   transactions: ITransaction[] = [];
   users: IUser[] = [];
   userMap = { 0: 'Store'};
   displayedColumns: string[] = ['id', 'amount', 'date', 'sender_id', 'receiver_id'];
   dataSource: MatTableDataSource<ITransaction>;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
   private destroy$ = new Subject();
 
-  constructor(private router: Router, private rest: RestService) { }
+  constructor(private router: Router, private rest: RestService, private cd: ChangeDetectorRef) { }
 
   ngOnInit() {
-    forkJoin(this.rest.getEntities('alltransactions'), this.rest.getEntities('users'))
+    this.initTransactions(0);
+  }
+
+  initTransactions(pageIndex: number) {
+    forkJoin(this.rest.getEntities('alltransactions', {page: pageIndex}), this.rest.getEntities('users'))
       .pipe(
-        finalize(() => this.isLoading = false),
+        finalize(() => {
+          this.isLoading = false;
+          this.cd.markForCheck();
+        }),
         takeUntil(this.destroy$)
       )
       .subscribe(data => {
         console.log('Transactions: ', data);
+        this.transactionsCount = data[0]['total transactions'];
         this.transactions = data[0].transactions;
         this.users = data[1].users;
         this.users.forEach(user => {
@@ -44,7 +56,14 @@ export class TransactionsComponent implements OnInit, OnDestroy {
         });
 
         this.dataSource = new MatTableDataSource(this.transactions);
+        this.dataSource.paginator = this.paginator;
       });
+  }
+
+  onPageChange(params: any) {
+    this.isLoading = true;
+    this.pageIndex = params.pageIndex;
+    this.initTransactions(this.pageIndex);
   }
 
   applyFilter(filterValue: string) {

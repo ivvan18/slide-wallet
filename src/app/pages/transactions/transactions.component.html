@@ -41,4 +41,5 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr class="user-line" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
+  <mat-paginator [pageSize]="pageSize" [pageIndex]="pageIndex" [length]="transactionsCount" (page)="onPageChange($event)" showFirstLastButtons></mat-paginator>
 </div>

@@ -11,8 +11,8 @@ export class RestService {
 
   constructor(private http: HttpClient) { }
 
-  getEntities(entities: string): Observable<any> {
-    return this.http.get(this.restUrl + `/${entities}`);
+  getEntities(entities: string, params?: any): Observable<any> {
+    return this.http.get(this.restUrl + `/${entities}`, { params: params });
   }
 
   getEntityById(entity: string, id: number): Observable<any> {
